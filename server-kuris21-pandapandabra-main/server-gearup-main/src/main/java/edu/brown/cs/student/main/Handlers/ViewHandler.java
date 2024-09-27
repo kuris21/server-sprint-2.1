@@ -1,32 +1,39 @@
-package edu.brown.cs.student.main.server;
+package edu.brown.cs.student.main.Handlers;
 
+import edu.brown.cs.student.main.utilities.CSVUtility;
+import java.util.HashMap;
+import java.util.Map;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Handler for the viewcsv endpoint. This sends back the entire loaded CSV file's contents
- * as a JSON 2-dimensional array.
+ * Handler for the viewcsv endpoint. This sends back the entire loaded CSV file's contents as a JSON
+ * 2-dimensional array.
  */
-public class ViewCsvHandler implements Route {
+public class ViewHandler implements Route {
 
-    public Object handle(Request request, Response response) {
-        Map<String, Object> responseMap = new HashMap<>();
+  CSVUtility csvUtility = new CSVUtility();
 
-        // Check if CSV data has been loaded
-        if (csvData == null || csvData.isEmpty()) {
-            responseMap.put("result", "error_datasource");
-            responseMap.put("message", "No CSV data loaded.");
-            return responseMap;
-        }
+  public ViewHandler(CSVUtility csvUtility) {
+    this.csvUtility = csvUtility;
+  }
 
-        // Construct response
-        responseMap.put("result", "success");
-        responseMap.put("data", csvData);
-        return responseMap;
+  @Override
+  public Object handle(Request request, Response response) {
+    Map<String, Object> responseMap = new HashMap<>();
+
+    Map<String, Object> resultMap = new HashMap<>();
+
+    if (!csvUtility.isCSVLoaded()) {
+      resultMap.put("result", "error_datasource");
+      resultMap.put("message", "No CSV file loaded.");
+      return resultMap;
     }
+
+    // Construct response
+    resultMap.put("result", "success");
+    resultMap.put("data", csvUtility.getCSVData());
+    return responseMap;
+  }
 }

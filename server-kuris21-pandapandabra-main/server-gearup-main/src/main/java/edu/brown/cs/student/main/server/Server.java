@@ -2,6 +2,7 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
+import edu.brown.cs.student.main.Handlers.ViewHandler;
 import edu.brown.cs.student.main.utilities.CSVUtility;
 import spark.Spark;
 
@@ -49,7 +50,7 @@ public class Server {
 
     // Register routes for handling CSV operations
     Spark.get("/loadcsv", new LoadCSVHandler(csvUtility)); // Load CSV file
-    // get("/viewcsv", new ViewCSVHandler(csvUtility));    // View entire CSV contents
+    Spark.get("/viewcsv", new ViewHandler(csvUtility)); // View entire CSV contents
     // get("/searchcsv", new SearchCSVHandler(csvUtility)); // Search CSV based on query
 
     // Start the Spark server
