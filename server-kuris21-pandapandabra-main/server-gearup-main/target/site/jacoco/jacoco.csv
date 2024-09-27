@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+moshi,edu.brown.cs.student.main.soup,Soup,36,72,5,3,6,20,7,7,3,7
+moshi,edu.brown.cs.student.main.soup,SoupAPIUtilities,87,29,0,0,25,7,3,2,3,2
+moshi,edu.brown.cs.student.main.server,Server,58,0,0,0,20,0,3,0,3,0
+moshi,edu.brown.cs.student.main.server,OrderHandler.SoupNoRecipesFailureResponse,0,24,0,0,0,5,0,4,0,4
+moshi,edu.brown.cs.student.main.server,ActivityHandler,66,3,0,0,22,1,2,1,2,1
+moshi,edu.brown.cs.student.main.server,OrderHandler.SoupSuccessResponse,5,33,0,0,3,6,0,5,0,5
+moshi,edu.brown.cs.student.main.server,OrderHandler,0,50,0,2,0,10,0,3,0,2
+moshi,edu.brown.cs.student.main.activity,ActivityAPIUtilities,26,0,0,0,8,0,2,0,2,0
+moshi,edu.brown.cs.student.main.activity,Activity,9,0,0,0,2,0,2,0,2,0
