@@ -2,10 +2,7 @@
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.soup.Soup;
-import edu.brown.cs.student.main.soup.SoupAPIUtilities;
-import java.util.ArrayList;
-import java.util.List;
+import edu.brown.cs.student.main.utilities.CSVUtility;
 import spark.Spark;
 
 /**
@@ -17,17 +14,17 @@ import spark.Spark;
  * injection. If we needed more endpoints, more functionality classes, etc. we could make sure they
  * all had the same shared state.
  */
-<span class="nc" id="L20">public class Server {</span>
+public class Server {
   // TODO 0: Read through this class and determine the shape of this project...
   // What are the endpoints that we can access... What happens if you go to them?
   public static void main(String[] args) {
-<span class="nc" id="L24">    int port = 3232;</span>
-<span class="nc" id="L25">    Spark.port(port);</span>
+    int port = 3232;
+<span class="nc" id="L22">    Spark.port(port);</span>
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
        be able to make requests to the server.
-
-       By setting the Access-Control-Allow-Origin header to &quot;*&quot;, we allow requests from any origin.
+<span class="nc" id="L26"></span>
+<span class="nc" id="L27">       By setting the Access-Control-Allow-Origin header to &quot;*&quot;, we allow requests from any origin.</span>
        This is not a good idea in real-world applications, since it opens up your server to cross-origin requests
        from any website. Instead, you should set this header to the origin of your client, or a list of origins
        that you trust.
@@ -40,33 +37,25 @@ import spark.Spark;
            - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
            - https://portswigger.net/web-security/cors
     */
-<span class="nc" id="L43">    after(</span>
+    after(
         (request, response) -&gt; {
-<span class="nc" id="L45">          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L46">          response.header(&quot;Access-Control-Allow-Methods&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L47">        });</span>
+          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+          response.header(&quot;Access-Control-Allow-Methods&quot;, &quot;*&quot;);
+        });
+<span class="nc" id="L45"></span>
+    // Initialize the CSVUtility class to manage CSV data
+<span class="nc" id="L47">    CSVUtility csvUtility = new CSVUtility();</span>
+<span class="nc" id="L48">    // LoadCSVHandler loadCSVHandler = new Lo</span>
+<span class="nc" id="L49"></span>
+    // Register routes for handling CSV operations
+    Spark.get(&quot;/loadcsv&quot;, new LoadCSVHandler(csvUtility)); // Load CSV file
+<span class="nc" id="L52">    // get(&quot;/viewcsv&quot;, new ViewCSVHandler(csvUtility));    // View entire CSV contents</span>
+    // get(&quot;/searchcsv&quot;, new SearchCSVHandler(csvUtility)); // Search CSV based on query
 
-    // Sets up data needed for the OrderHandler. You will likely not read from local
-    // JSON in this sprint.
-<span class="nc" id="L51">    String menuAsJson = SoupAPIUtilities.readInJson(&quot;data/menu.json&quot;);</span>
-<span class="nc" id="L52">    List&lt;Soup&gt; menu = new ArrayList&lt;&gt;();</span>
-    try {
-<span class="nc" id="L54">      menu = SoupAPIUtilities.deserializeMenu(menuAsJson);</span>
-<span class="nc" id="L55">    } catch (Exception e) {</span>
-      // See note in ActivityHandler about this broad Exception catch... Unsatisfactory, but gets
-      // the job done in the gearup where it is not the focus.
-<span class="nc" id="L58">      e.printStackTrace();</span>
-<span class="nc" id="L59">      System.err.println(&quot;Errored while deserializing the menu&quot;);</span>
-<span class="nc" id="L60">    }</span>
-
-    // Setting up the handler for the GET /order and /activity endpoints
-<span class="nc" id="L63">    Spark.get(&quot;order&quot;, new OrderHandler(menu));</span>
-<span class="nc" id="L64">    Spark.get(&quot;activity&quot;, new ActivityHandler());</span>
-<span class="nc" id="L65">    Spark.init();</span>
-<span class="nc" id="L66">    Spark.awaitInitialization();</span>
-
-    // Notice this link alone leads to a 404... Why is that?
-<span class="nc" id="L69">    System.out.println(&quot;Server started at http://localhost:&quot; + port);</span>
-<span class="nc" id="L70">  }</span>
+    // Start the Spark server
+<span class="nc" id="L56">    Spark.init();</span>
+    Spark.awaitInitialization();
+    System.out.println(&quot;Server started at http://localhost:&quot; + port);
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
