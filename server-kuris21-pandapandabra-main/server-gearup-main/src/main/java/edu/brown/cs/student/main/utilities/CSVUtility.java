@@ -1,41 +1,78 @@
 package edu.brown.cs.student.main.utilities;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class CSVUtility {
 
-  private List<String[]> csvData = new ArrayList<>();
-  private boolean csvLoaded = false;
+  String path;
+  /** Allows easy check is a csv has been loaded for search and view csv */
+  boolean isLoaded;
 
-  // Load the CSV file from the given filepath
-  public void loadCSV(String filepath) throws IOException {
-    csvData.clear(); // Clear previous CSV data if any
-    try (Scanner scanner = new Scanner(new FileReader(filepath))) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        String[] row = line.split(","); // Assuming the CSV is comma-separated
-        csvData.add(row);
-      }
-      csvLoaded = true;
-      System.out.println(
-          "Successfully loaded " + filepath); // Mark that a CSV has been successfully loaded
-    } catch (IOException e) {
-      csvLoaded = false;
-      throw new IOException("Failed to load CSV from " + filepath + ": " + e.getMessage());
-    }
+  /** Allows search and view to access parsed csv */
+  List<List<String>> parsedCSV;
+
+  /**
+   * Constructor for Loaded csv Will always initialize with these values, and will be filled when
+   * loadcsv is requested
+   */
+  public CSVUtility() {
+    this.path = "";
+    this.isLoaded = false;
+    this.parsedCSV = Collections.emptyList();
   }
 
-  // Check if a CSV file is currently loaded
-  public boolean isCSVLoaded() {
-    return csvLoaded;
+  /**
+   * Setter for path
+   *
+   * @param path csv file path String
+   */
+  public void setPath(String path) {
+    this.path = path;
   }
 
-  // Retrieve the full CSV data as a List of String arrays
-  public List<String[]> getCSVData() {
-    return csvData;
+  /**
+   * Getter for path
+   *
+   * @return csv file path String
+   */
+  public String getPath() {
+    return path;
+  }
+
+  /**
+   * Setter for isLoaded
+   *
+   * @param isLoaded boolean if a csv has been loaded
+   */
+  public void setIsLoaded(boolean isLoaded) {
+    this.isLoaded = isLoaded;
+  }
+
+  /**
+   * Getter for isLoaded
+   *
+   * @return boolean if csv has been loaded
+   */
+  public boolean getIsLoaded() {
+    return this.isLoaded;
+  }
+
+  /**
+   * Setter for parsedCSV
+   *
+   * @param parsedCSV List<List<String>> of the parsed csv
+   */
+  public void setParsedCSV(List<List<String>> parsedCSV) {
+    this.parsedCSV = parsedCSV;
+  }
+
+  /**
+   * Getter for parsed csv
+   *
+   * @return List<List<String>> of the parsed csv
+   */
+  public List<List<String>> getParsedCSV() {
+    return parsedCSV;
   }
 }

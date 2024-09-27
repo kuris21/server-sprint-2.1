@@ -21,11 +21,12 @@ public class ViewHandler implements Route {
 
   @Override
   public Object handle(Request request, Response response) {
+
     Map<String, Object> responseMap = new HashMap<>();
 
     Map<String, Object> resultMap = new HashMap<>();
 
-    if (!csvUtility.isCSVLoaded()) {
+    if (!csvUtility.getIsLoaded()) {
       resultMap.put("result", "error_datasource");
       resultMap.put("message", "No CSV file loaded.");
       return resultMap;
@@ -33,7 +34,7 @@ public class ViewHandler implements Route {
 
     // Construct response
     resultMap.put("result", "success");
-    resultMap.put("data", csvUtility.getCSVData());
+    resultMap.put("data", csvUtility.getParsedCSV());
     return responseMap;
   }
 }
