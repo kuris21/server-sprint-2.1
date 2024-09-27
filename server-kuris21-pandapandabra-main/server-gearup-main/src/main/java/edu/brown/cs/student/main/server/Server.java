@@ -2,10 +2,7 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.soup.Soup;
-import edu.brown.cs.student.main.soup.SoupAPIUtilities;
-import java.util.ArrayList;
-import java.util.List;
+import edu.brown.cs.student.main.utilities.CSVUtility;
 import spark.Spark;
 
 /**
@@ -46,26 +43,18 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    // Sets up data needed for the OrderHandler. You will likely not read from local
-    // JSON in this sprint.
-    String menuAsJson = SoupAPIUtilities.readInJson("data/menu.json");
-    List<Soup> menu = new ArrayList<>();
-    try {
-      menu = SoupAPIUtilities.deserializeMenu(menuAsJson);
-    } catch (Exception e) {
-      // See note in ActivityHandler about this broad Exception catch... Unsatisfactory, but gets
-      // the job done in the gearup where it is not the focus.
-      e.printStackTrace();
-      System.err.println("Errored while deserializing the menu");
-    }
+    // Initialize the CSVUtility class to manage CSV data
+    CSVUtility csvUtility = new CSVUtility();
+    // LoadCSVHandler loadCSVHandler = new Lo
 
-    // Setting up the handler for the GET /order and /activity endpoints
-    Spark.get("order", new OrderHandler(menu));
-    Spark.get("activity", new ActivityHandler());
+    // Register routes for handling CSV operations
+    Spark.get("/loadcsv", new LoadCSVHandler(csvUtility)); // Load CSV file
+    // get("/viewcsv", new ViewCSVHandler(csvUtility));    // View entire CSV contents
+    // get("/searchcsv", new SearchCSVHandler(csvUtility)); // Search CSV based on query
+
+    // Start the Spark server
     Spark.init();
     Spark.awaitInitialization();
-
-    // Notice this link alone leads to a 404... Why is that?
     System.out.println("Server started at http://localhost:" + port);
   }
 }

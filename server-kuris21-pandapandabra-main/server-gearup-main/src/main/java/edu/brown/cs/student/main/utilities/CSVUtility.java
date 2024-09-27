@@ -22,7 +22,7 @@ public class CSVUtility {
       }
       csvLoaded = true;
       System.out.println(
-          "Sucessfully loaded" + filepath)// Mark that a CSV has been successfully loaded
+          "Successfully loaded " + filepath); // Mark that a CSV has been successfully loaded
     } catch (IOException e) {
       csvLoaded = false;
       throw new IOException("Failed to load CSV from " + filepath + ": " + e.getMessage());
