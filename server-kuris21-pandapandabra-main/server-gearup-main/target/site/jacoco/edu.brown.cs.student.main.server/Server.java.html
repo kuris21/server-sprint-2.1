@@ -2,7 +2,6 @@
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.Handlers.ViewHandler;
 import edu.brown.cs.student.main.utilities.CSVUtility;
 import spark.Spark;
 
@@ -15,13 +14,13 @@ import spark.Spark;
  * injection. If we needed more endpoints, more functionality classes, etc. we could make sure they
  * all had the same shared state.
  */
-<span class="nc" id="L18">public class Server {</span>
-  // TODO 0: Read through this class and determine the shape of this project...
+public class Server {
+<span class="nc" id="L18">  // TODO 0: Read through this class and determine the shape of this project...</span>
   // What are the endpoints that we can access... What happens if you go to them?
   public static void main(String[] args) {
-<span class="nc" id="L22">    int port = 3232;</span>
-<span class="nc" id="L23">    Spark.port(port);</span>
-    /*
+    int port = 3232;
+<span class="nc" id="L22">    Spark.port(port);</span>
+<span class="nc" id="L23">    /*</span>
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
        be able to make requests to the server.
 
@@ -38,25 +37,26 @@ import spark.Spark;
            - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
            - https://portswigger.net/web-security/cors
     */
-<span class="nc" id="L41">    after(</span>
-        (request, response) -&gt; {
-<span class="nc" id="L43">          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L44">          response.header(&quot;Access-Control-Allow-Methods&quot;, &quot;*&quot;);</span>
-<span class="nc" id="L45">        });</span>
-
+    after(
+<span class="nc" id="L41">        (request, response) -&gt; {</span>
+          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+<span class="nc" id="L43">          response.header(&quot;Access-Control-Allow-Methods&quot;, &quot;*&quot;);</span>
+<span class="nc" id="L44">        });</span>
+<span class="nc" id="L45"></span>
     // Initialize the CSVUtility class to manage CSV data
-<span class="nc" id="L48">    CSVUtility csvUtility = new CSVUtility();</span>
-    // LoadCSVHandler loadCSVHandler = new Lo
+    CSVUtility csvUtility = new CSVUtility();
+<span class="nc" id="L48">    // LoadCSVHandler loadCSVHandler = new Lo</span>
 
     // Register routes for handling CSV operations
-<span class="nc" id="L52">    Spark.get(&quot;/loadcsv&quot;, new LoadCSVHandler(csvUtility)); // Load CSV file</span>
-<span class="nc" id="L53">    Spark.get(&quot;/viewcsv&quot;, new ViewHandler(csvUtility)); // View entire CSV contents</span>
+    Spark.get(&quot;loadcsv&quot;, new LoadCSVHandler(csvUtility)); // Load CSV file
+<span class="nc" id="L52">    //</span>
+    // Spark.get(&quot;viewcsv&quot;, new ViewHandler(csvUtility)); // View entire CSV contents
     // get(&quot;/searchcsv&quot;, new SearchCSVHandler(csvUtility)); // Search CSV based on query
 
     // Start the Spark server
-<span class="nc" id="L57">    Spark.init();</span>
+    Spark.init();
 <span class="nc" id="L58">    Spark.awaitInitialization();</span>
 <span class="nc" id="L59">    System.out.println(&quot;Server started at http://localhost:&quot; + port);</span>
 <span class="nc" id="L60">  }</span>
-}
+<span class="nc" id="L61">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

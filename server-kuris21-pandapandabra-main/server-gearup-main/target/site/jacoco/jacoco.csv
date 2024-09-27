@@ -1,11 +1,13 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 moshi,edu.brown.cs.student.main.soup,Soup,66,42,5,3,15,11,11,3,7,3
 moshi,edu.brown.cs.student.main.soup,SoupAPIUtilities,87,29,0,0,25,7,3,2,3,2
-moshi,edu.brown.cs.student.main.utilities,CSVUtility,65,0,2,0,19,0,5,0,4,0
-moshi,edu.brown.cs.student.main.server,Server,46,0,0,0,14,0,3,0,3,0
-moshi,edu.brown.cs.student.main.server,LoadCSVHandler,60,0,4,0,17,0,4,0,2,0
+moshi,edu.brown.cs.student.main.utilities,CSVUtility,33,0,0,0,14,0,7,0,7,0
+moshi,edu.brown.cs.student.main.server,LoadCSVHandler,50,0,4,0,11,0,4,0,2,0
+moshi,edu.brown.cs.student.main.server,LoadCSVHandler.FileSuccessfullyLoaded,43,0,0,0,9,0,5,0,5,0
+moshi,edu.brown.cs.student.main.server,Server,40,0,0,0,13,0,3,0,3,0
 moshi,edu.brown.cs.student.main.server,OrderHandler.SoupNoRecipesFailureResponse,24,0,0,0,5,0,4,0,4,0
 moshi,edu.brown.cs.student.main.server,OrderHandler.SoupSuccessResponse,38,0,0,0,9,0,5,0,5,0
+moshi,edu.brown.cs.student.main.server,LoadCSVHandler.FileFailureLoaded,44,0,0,0,7,0,5,0,5,0
 moshi,edu.brown.cs.student.main.server,OrderHandler,50,0,2,0,10,0,3,0,2,0
 moshi,edu.brown.cs.student.main.activity,ActivityAPIUtilities,26,0,0,0,8,0,2,0,2,0
 moshi,edu.brown.cs.student.main.activity,Activity,9,0,0,0,2,0,2,0,2,0
