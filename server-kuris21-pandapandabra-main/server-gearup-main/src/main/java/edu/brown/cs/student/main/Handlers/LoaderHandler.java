@@ -21,24 +21,24 @@ public class LoadCSVHandler implements Route {
     //Get the filepath from request
     String filepath = request.queryParams("filepath");
 
-    if (filepath == null) {
+    if (filepath == null|| filepath.isEmpty()) {
         responseMap.put("result", "error_bad_request");
         responseMap.put("message", "Missing filepath parameter.");
         return responseMap;
     }
 
-    try {
-        //Load the CSV file if it exists
-        loadCSV(filepath);
-        loadedCsvFilePath = filepath;
-        responseMap.put("result", "success");
-        responseMap.put("filepath", filepath);
-    } catch (IOException e) {
-        responseMap.put("result", "error_datasource");
-        responseMap.put("message", "Failed to load the CSV file: " + filepath);
+        try {
+            csvUtility.loadCSV(filepath);
+            resultMap.put("result", "success");
+            resultMap.put("filepath", filepath);
+        } catch (Exception e) {
+            resultMap.put("result", "error_datasource");
+            resultMap.put("message", e.getMessage());
+        }
+
+        return resultMap;
     }
-    return responseMap;
-    }
+}
 
 /**
  * Loads the CSV file located at the filepath
@@ -46,6 +46,7 @@ public class LoadCSVHandler implements Route {
  * @param filepath
  * @throws IOException if the file is not readable or doesn't exist
  */
+/*
 private void loadCSV(Stirng filepath) throws IOException {
 //Limit access
     if (!filepath.startsWith("csv/data/")) {
@@ -67,7 +68,10 @@ private void loadCSV(Stirng filepath) throws IOException {
      *
      * @return loaded CSV file path or null if no CSV is loaded.
      */
+/*
     public static String getLoadedCsvFilePath() {
         return loadedCsvFilePath;
     }
+
+ */
 }
