@@ -22,20 +22,20 @@ public class ViewHandler implements Route {
   @Override
   public Object handle(Request request, Response response) {
 
-    Map&lt;String, Object&gt; responseMap = new HashMap&lt;&gt;();
-<span class="nc" id="L26"></span>
-    Map&lt;String, Object&gt; resultMap = new HashMap&lt;&gt;();
-<span class="nc" id="L28"></span>
-    if (!csvUtility.getIsLoaded()) {
-<span class="nc bnc" id="L30" title="All 2 branches missed.">      resultMap.put(&quot;result&quot;, &quot;error_datasource&quot;);</span>
+<span class="nc" id="L25">    Map&lt;String, Object&gt; responseMap = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L27">    Map&lt;String, Object&gt; resultMap = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    if (!csvUtility.getIsLoaded()) {</span>
+<span class="nc" id="L30">      resultMap.put(&quot;result&quot;, &quot;error_datasource&quot;);</span>
 <span class="nc" id="L31">      resultMap.put(&quot;message&quot;, &quot;No CSV file loaded.&quot;);</span>
 <span class="nc" id="L32">      return resultMap;</span>
-<span class="nc" id="L33">    }</span>
+    }
 
     // Construct response
-    resultMap.put(&quot;result&quot;, &quot;success&quot;);
+<span class="nc" id="L36">    resultMap.put(&quot;result&quot;, &quot;success&quot;);</span>
 <span class="nc" id="L37">    resultMap.put(&quot;data&quot;, csvUtility.getParsedCSV());</span>
 <span class="nc" id="L38">    return responseMap;</span>
-<span class="nc" id="L39">  }</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -16,64 +16,64 @@ public class CSVUtility {
    * Constructor for Loaded csv Will always initialize with these values, and will be filled when
    * loadcsv is requested
    */
-  public CSVUtility() {
-    this.path = &quot;&quot;;
-    this.isLoaded = false;
-    this.parsedCSV = Collections.emptyList();
+<span class="nc" id="L19">  public CSVUtility() {</span>
+<span class="nc" id="L20">    this.path = &quot;&quot;;</span>
+<span class="nc" id="L21">    this.isLoaded = false;</span>
+<span class="nc" id="L22">    this.parsedCSV = Collections.emptyList();</span>
 <span class="nc" id="L23">  }</span>
-<span class="nc" id="L24"></span>
-<span class="nc" id="L25">  /**</span>
-<span class="nc" id="L26">   * Setter for path</span>
-<span class="nc" id="L27">   *</span>
+
+  /**
+   * Setter for path
+   *
    * @param path csv file path String
    */
   public void setPath(String path) {
-    this.path = path;
-  }
+<span class="nc" id="L31">    this.path = path;</span>
+<span class="nc" id="L32">  }</span>
 
   /**
-<span class="nc" id="L35">   * Getter for path</span>
-<span class="nc" id="L36">   *</span>
+   * Getter for path
+   *
    * @return csv file path String
    */
   public String getPath() {
-    return path;
+<span class="nc" id="L40">    return path;</span>
   }
 
   /**
-<span class="nc" id="L44">   * Setter for isLoaded</span>
+   * Setter for isLoaded
    *
    * @param isLoaded boolean if a csv has been loaded
    */
   public void setIsLoaded(boolean isLoaded) {
-    this.isLoaded = isLoaded;
-  }
+<span class="nc" id="L49">    this.isLoaded = isLoaded;</span>
+<span class="nc" id="L50">  }</span>
 
   /**
-<span class="nc" id="L53">   * Getter for isLoaded</span>
-<span class="nc" id="L54">   *</span>
+   * Getter for isLoaded
+   *
    * @return boolean if csv has been loaded
    */
   public boolean getIsLoaded() {
-    return this.isLoaded;
+<span class="nc" id="L58">    return this.isLoaded;</span>
   }
 
   /**
-<span class="nc" id="L62">   * Setter for parsedCSV</span>
+   * Setter for parsedCSV
    *
    * @param parsedCSV List&lt;List&lt;String&gt;&gt; of the parsed csv
    */
   public void setParsedCSV(List&lt;List&lt;String&gt;&gt; parsedCSV) {
-    this.parsedCSV = parsedCSV;
-  }
+<span class="nc" id="L67">    this.parsedCSV = parsedCSV;</span>
+<span class="nc" id="L68">  }</span>
 
   /**
-<span class="nc" id="L71">   * Getter for parsed csv</span>
-<span class="nc" id="L72">   *</span>
+   * Getter for parsed csv
+   *
    * @return List&lt;List&lt;String&gt;&gt; of the parsed csv
    */
   public List&lt;List&lt;String&gt;&gt; getParsedCSV() {
-    return parsedCSV;
+<span class="nc" id="L76">    return parsedCSV;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

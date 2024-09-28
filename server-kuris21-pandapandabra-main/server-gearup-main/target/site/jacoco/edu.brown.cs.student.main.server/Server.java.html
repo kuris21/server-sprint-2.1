@@ -14,13 +14,13 @@ import spark.Spark;
  * injection. If we needed more endpoints, more functionality classes, etc. we could make sure they
  * all had the same shared state.
  */
-public class Server {
-<span class="nc" id="L18">  // TODO 0: Read through this class and determine the shape of this project...</span>
+<span class="nc" id="L17">public class Server {</span>
+  // TODO 0: Read through this class and determine the shape of this project...
   // What are the endpoints that we can access... What happens if you go to them?
   public static void main(String[] args) {
-    int port = 3232;
+<span class="nc" id="L21">    int port = 3232;</span>
 <span class="nc" id="L22">    Spark.port(port);</span>
-<span class="nc" id="L23">    /*</span>
+    /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
        be able to make requests to the server.
 
@@ -37,26 +37,26 @@ public class Server {
            - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
            - https://portswigger.net/web-security/cors
     */
-    after(
-<span class="nc" id="L41">        (request, response) -&gt; {</span>
-          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+<span class="nc" id="L40">    after(</span>
+        (request, response) -&gt; {
+<span class="nc" id="L42">          response.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
 <span class="nc" id="L43">          response.header(&quot;Access-Control-Allow-Methods&quot;, &quot;*&quot;);</span>
 <span class="nc" id="L44">        });</span>
-<span class="nc" id="L45"></span>
+
     // Initialize the CSVUtility class to manage CSV data
-    CSVUtility csvUtility = new CSVUtility();
-<span class="nc" id="L48">    // LoadCSVHandler loadCSVHandler = new Lo</span>
+<span class="nc" id="L47">    CSVUtility csvUtility = new CSVUtility();</span>
+    // LoadCSVHandler loadCSVHandler = new Lo
 
     // Register routes for handling CSV operations
-    Spark.get(&quot;loadcsv&quot;, new LoadCSVHandler(csvUtility)); // Load CSV file
-<span class="nc" id="L52">    //</span>
+<span class="nc" id="L51">    Spark.get(&quot;loadcsv&quot;, new LoadCSVHandler(csvUtility)); // Load CSV file</span>
+    //
     // Spark.get(&quot;viewcsv&quot;, new ViewHandler(csvUtility)); // View entire CSV contents
     // get(&quot;/searchcsv&quot;, new SearchCSVHandler(csvUtility)); // Search CSV based on query
 
     // Start the Spark server
-    Spark.init();
+<span class="nc" id="L57">    Spark.init();</span>
 <span class="nc" id="L58">    Spark.awaitInitialization();</span>
 <span class="nc" id="L59">    System.out.println(&quot;Server started at http://localhost:&quot; + port);</span>
 <span class="nc" id="L60">  }</span>
-<span class="nc" id="L61">}</span>
+}
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
