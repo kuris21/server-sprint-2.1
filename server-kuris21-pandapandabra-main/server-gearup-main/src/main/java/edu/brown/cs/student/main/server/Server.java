@@ -2,6 +2,9 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
+import edu.brown.cs.student.main.Handlers.LoadCSVHandler;
+import edu.brown.cs.student.main.Handlers.SearchHandler;
+import edu.brown.cs.student.main.Handlers.ViewHandler;
 import edu.brown.cs.student.main.utilities.CSVUtility;
 import spark.Spark;
 
@@ -19,6 +22,7 @@ public class Server {
   // What are the endpoints that we can access... What happens if you go to them?
   public static void main(String[] args) {
     int port = 3232;
+
     Spark.port(port);
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
@@ -49,9 +53,8 @@ public class Server {
 
     // Register routes for handling CSV operations
     Spark.get("loadcsv", new LoadCSVHandler(csvUtility)); // Load CSV file
-    //
-    // Spark.get("viewcsv", new ViewHandler(csvUtility)); // View entire CSV contents
-    // get("/searchcsv", new SearchCSVHandler(csvUtility)); // Search CSV based on query
+    Spark.get("viewcsv", new ViewHandler(csvUtility)); // View entire CSV contents
+    Spark.get("/searchcsv", new SearchHandler(csvUtility)); // Search CSV based on query
 
     // Start the Spark server
     Spark.init();
