@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import edu.brown.cs.student.main.Searcher.CSVSearcher;
 import edu.brown.cs.student.main.utilities.CSVUtility;
+import java.util.List;
 import java.util.Set;
 import spark.Request;
 import spark.Response;
@@ -15,65 +16,70 @@ public class SearchHandler implements Route {
   CSVSearcher csvSearcher;
 
   public SearchHandler(CSVUtility csvUtility) {
+
     this.csvUtility = csvUtility;
   }
 
   @Override
   public Object handle(Request request, Response response) {
 
-    String searchTerm = "";
-    String colName = "";
-    boolean hasHeaders = true;
+      Set<String> params = request.queryParams();
 
-    Set<String> params = request.queryParams();
-
-    if (!this.csvUtility.getIsLoaded()) {
-      return new FailureToSearch(
-              "error_datasource",
-              params.toString(),
-              "No csv loaded. Use endpoint 'loadcsv' with a path "
-                  + "to your csv to load, then search.")
-          .serialize();
-    }
-
-    if (params.contains("term")) {
-      searchTerm = request.queryParams("term");
-    } else {
-      return new FailureToSearch(
-              "error_bad_request",
-              params.toString(),
-              "Must have parameter 'term' for term to search.")
-          .serialize();
-    }
-
-    if (params.contains("col")) {
-      colName = request.queryParams("col");
-    } else {
-      return new FailureToSearch(
-              "error_bad_request",
-              params.toString(),
-              "Must have parameter 'col' for term to search.")
-          .serialize();
-    }
-
-    if (params.contains("hasHeaders")) {
-      if (request.queryParams("hasHeaders").equals("true")) {
-        hasHeaders = true;
-      } else if (request.queryParams("hasHeaders").equals("false")) {
-        hasHeaders = false;
-      } else {
+      if (!this.csvUtility.getIsLoaded()) {
         return new FailureToSearch(
-                "error_bad_request",
-                params.toString(),
-                "Parameter hasHeaders must be either 'true' or 'false'.")
-            .serialize();
+            "error_datasource",
+            params.toString(),
+            "No csv loaded. Use endpoint 'loadcsv' with a path to your csv to load, then search."
+        ).serialize();
+      }
+
+      String searchString = request.queryParams("searchString");
+      if (searchString == null || searchString.isEmpty()) {
+        return new FailureToSearch(
+            "error_bad_request",
+            params.toString(),
+            "Must specify value of searchString."
+        ).serialize();
+      }
+
+      String columnIdentifier = request.queryParams("columnIdentifier");
+      if (columnIdentifier == null || columnIdentifier.isEmpty()) {
+        return new FailureToSearch(
+            "error_bad_request",
+            params.toString(),
+            "Must specify value of columnIdentifier. Write \"none\" if none"
+        ).serialize();
+      }
+
+      boolean hasHeaders = true;
+      String hasHeadersParam = request.queryParams("hasHeader");
+      if (hasHeadersParam != null) {
+        if (hasHeadersParam.equals("true")) {
+          hasHeaders = true;
+        } else if (hasHeadersParam.equals("false")) {
+          hasHeaders = false;
+        } else {
+          return new FailureToSearch(
+              "error_bad_request",
+              params.toString(),
+              "Parameter hasHeaders must be either 'true' or 'false'."
+          ).serialize();
+        }
+      }
+
+      try {
+        // Assuming csvSearcher.search() returns a List<List<String>> of search results
+        List<List<String>> searchResults = this.csvSearcher.search(this.csvUtility.getPath(), searchString, columnIdentifier, hasHeaders);
+        System.out.println(searchResults);
+        return new SuccessfullySearched(params.toString(), "Found " + searchResults + " matching rows.").serialize();
+      } catch (Exception e) {
+        return new FailureToSearch(
+            "error_bad_request",
+            params.toString(),
+            "Error during search: " + e.getMessage()
+        ).serialize();
       }
     }
-
-    csvSearcher.search(this.csvUtility.getPath(), searchTerm, colName, hasHeaders);
-
-    return new SuccessfullySearched(params.toString(), "searched");
-  }
 
   /**
    * Record for when item as successfully searched for

@@ -24,6 +24,7 @@ public class LoadCSVHandler implements Route {
     FileReader readFile = new FileReader(filepath);
 
     Parser parser = new Parser(readFile, new TrivialCreator());
+    parser.parse();
 
     if (filepath == null || filepath.isEmpty()) {
       return new FileFailureLoaded("failure", filepath, "input is null or empty").serialize();
@@ -33,6 +34,8 @@ public class LoadCSVHandler implements Route {
       this.csvUtility.setPath(filepath);
       this.csvUtility.setIsLoaded(true);
       this.csvUtility.setParsedCSV(parser.getParsedContent());
+
+      System.out.println(parser.getParsedContent());
 
       return new FileSuccessfullyLoaded(this.csvUtility.getPath()).serialize();
 

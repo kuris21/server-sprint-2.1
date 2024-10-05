@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.Searcher;
 
+
 import edu.brown.cs.student.main.CSV_Exceptions.CSVParserException;
 import edu.brown.cs.student.main.ObjectCreators.TrivialCreator;
 import edu.brown.cs.student.main.Parse.Parser;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVSearcher {
-
   private Parser<List<String>> parser;
 
   public CSVSearcher(Parser<List<String>> parser) {
@@ -18,64 +18,42 @@ public class CSVSearcher {
   }
 
   /**
-   * Search the CSV for rows that contain the specified value in a given column or across all
-   * columns.
+   * Search the CSV for rows that contain the specified value in a given column or across all columns.
    *
    * @param filename The CSV file path.
    * @param searchValue The value to search for.
-   * @param columnIdentifier The column index (0-based) or column name to search within. If null,
-   *     search all columns.
+   * @param columnIdentifier The column index (0-based) or column name to search within. If "none", search all columns.
    * @param hasHeader Whether the CSV file contains a header row.
+   * @return A list of matching rows.
+   * @throws FileNotFoundException if the CSV file is not found.
+   * @throws CSVParserException if there's an error parsing the CSV file.
+   * @throws IOException if there's an issue reading the CSV file.
    */
-  public void search(
-      String filename, String searchValue, String columnIdentifier, boolean hasHeader) {
-    try {
-      // Initialize the parser with the file
-      FileReader reader = new FileReader(filename);
-      parser = new Parser<>(reader, new TrivialCreator());
-      parser.parse();
+  public List<List<String>> search(
+      String filename, String searchValue, String columnIdentifier, boolean hasHeader)
+      throws FileNotFoundException, CSVParserException, IOException {
 
-      List<List<String>> rows = parser.getParsedContent();
-      List<String> headerRow = hasHeader ? rows.get(0) : null;
+    FileReader reader = new FileReader(filename);
+    parser = new Parser<>(reader, new TrivialCreator());
+    parser.parse();
 
-      // Filter rows that match the search criteria
-      List<List<String>> matchingRows = new ArrayList<>();
-      for (int i = hasHeader ? 1 : 0; i < rows.size(); i++) { // Skip header row if applicable
-        List<String> row = rows.get(i);
-        if (matchesRow(row, searchValue, columnIdentifier, headerRow)) {
-          matchingRows.add(row);
-        }
+    List<List<String>> rows = parser.getParsedContent();
+    List<String> headerRow = hasHeader ? rows.get(0) : null;
+
+    List<List<String>> matchingRows = new ArrayList<>();
+    for (int i = hasHeader ? 1 : 0; i < rows.size(); i++) {
+      List<String> row = rows.get(i);
+      if (matchesRow(row, searchValue, columnIdentifier, headerRow)) {
+        matchingRows.add(row);
       }
-
-      // Output the matching rows
-      if (matchingRows.isEmpty()) {
-        System.out.println("No matches found.");
-      } else {
-        printMatches(matchingRows);
-      }
-
-    } catch (FileNotFoundException e) {
-      System.err.println("Error: File not found - " + filename);
-    } catch (CSVParserException e) {
-      System.err.println("Error: Failed to parse the CSV file - " + e.getMessage());
-    } catch (IOException e) {
-      System.err.println("Error: Issue reading the CSV file - " + e.getMessage());
     }
+
+    return matchingRows;
   }
 
-  /**
-   * Check if a row matches the search criteria.
-   *
-   * @param row The row to check.
-   * @param searchValue The value to search for.
-   * @param columnIdentifier The column index (0-based) or column name to search within. If null,
-   *     search all columns.
-   * @param headerRow The header row, if applicable.
-   * @return true if the row matches the search criteria, false otherwise.
-   */
   private boolean matchesRow(
       List<String> row, String searchValue, String columnIdentifier, List<String> headerRow) {
-    if (columnIdentifier == null) {
+    if (columnIdentifier.equals("none")) {
       // Search across all columns
       for (String cell : row) {
         if (cell.contains(searchValue)) {
@@ -100,16 +78,5 @@ public class CSVSearcher {
       }
     }
     return false;
-  }
-
-  /**
-   * Print the matching rows to the console.
-   *
-   * @param matchingRows The rows that match the search criteria.
-   */
-  private void printMatches(List<List<String>> matchingRows) {
-    for (List<String> row : matchingRows) {
-      System.out.println(String.join(", ", row));
-    }
   }
 }
